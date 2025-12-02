@@ -4,9 +4,9 @@ import * as pollsController from "../../controllers/polls-controller.js"
 const pollsRouter = express.Router();
 
 // GETS
-pollsRouter.GET("/:id/results", pollsController.mostrarResultado);
-pollsRouter.GET("/:id", pollsController.visualizar);
-pollsRouter.GET("/", pollsController.listar);
+pollsRouter.get("/:id/results", pollsController.mostrarResultado);
+pollsRouter.get("/:id", pollsController.visualizar);
+pollsRouter.get("/", pollsController.listar);
 
 //POSTS
 pollsRouter.post("/:id/votes", pollsController.criar);
