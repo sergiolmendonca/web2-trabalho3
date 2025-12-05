@@ -1,5 +1,5 @@
 
-export class abstractPollRepository {
+export class AbstractPollRepository {
   create() {
     throw new Error("classe não implementada.");
   }

@@ -1,0 +1,56 @@
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://web2:zgdTEPhk99SDhrT@trabalho-web2.zulfmk6.mongodb.net/trabalho-web2"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String    @id @default(uuid()) @map("_id")
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
+model Poll {
+  id        String    @id @default(uuid()) @map("_id")
+  title      String
+  visibility     String
+  status String
+  startAt DateTime
+  endAt DateTime
+  expectedVotes Int
+  categories String[]
+  options Option[]
+  votes votedOption[]
+  createdBy CreatedBy
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
+type Option {
+  id String
+  text String
+}
+
+type CreatedBy {
+  id String
+  name String
+}
+
+type votedPoll {
+  poll_id String
+  option_id String
+  votedAt DateTime
+}
+
+type votedOption {
+  user_id String
+  option_id String
+  votedAt DateTime
+}
+

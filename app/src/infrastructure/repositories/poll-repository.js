@@ -1,6 +1,6 @@
-import { abstractPollRepository } from "../../domain/repositories/abstract-poll-repository.js";
+import { AbstractPollRepository } from "../../domain/repositories/abstract-poll-repository.js";
 
-export class pollRepository extends abstractPollRepository {
+export class PollRepository extends AbstractPollRepository {
     create(){
         return false;
     };
