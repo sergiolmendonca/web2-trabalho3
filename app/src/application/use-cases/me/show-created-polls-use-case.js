@@ -6,13 +6,7 @@ export class ShowCreatedPollsUseCase {
   }
 
   async execute({ userId, page, limit }) {
-    const polls = await this.pollRepository.list({
-        createdBy: {
-            is: {
-                id: userId
-            }
-        }
-    }, (page - 1), limit);
+    const polls = await this.pollRepository.listCreatedPolls(userId, page - 1, limit);
 
     return polls;
   }

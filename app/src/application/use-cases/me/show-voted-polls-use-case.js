@@ -6,17 +6,7 @@ export class ShowVotedPollsUseCase {
   }
 
   async execute({ userId, page, limit }) {
-    const polls = await this.pollRepository.list(
-      {
-        votes: {
-          some: {
-            user_id: userId,
-          },
-        },
-      },
-      page - 1,
-      limit
-    );
+    const polls = await this.pollRepository.listVotedPolls(userId, page-1, limit);
 
     return polls;
   }
