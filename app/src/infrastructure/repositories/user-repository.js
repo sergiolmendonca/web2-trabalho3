@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { AbstractUserRepository } from "../../domain/repositories/abstract-user-repository.js";
+import { User } from "../../domain/entities/user.js";
 
 
 const prisma = new PrismaClient({
@@ -7,17 +8,28 @@ const prisma = new PrismaClient({
 });
 
 export class UserRepository extends AbstractUserRepository {
-  findByEmail(email) {
-    return prisma.user.findUniqueOrThrow({
-        where: {
-            email: email
-        }
+  async findByEmail(email) {
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        email: email,
+      },
     });
+
+    return new User({ ...user });
   }
 
   async create(user) {
     return await prisma.user.create({
       data: user,
+    });
+  }
+
+  async update(data, id) {
+    return await prisma.user.update({
+      where: {
+        id: id
+      },
+      data: data,
     });
   }
 }

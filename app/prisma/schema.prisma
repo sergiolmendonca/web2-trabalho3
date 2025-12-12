@@ -1,6 +1,6 @@
 datasource db {
   provider = "mongodb"
-  url      = "mongodb+srv://web2:zgdTEPhk99SDhrT@trabalho-web2.zulfmk6.mongodb.net/trabalho-web2"
+  url      = env("MONGODB_URL")
 }
 
 generator client {
@@ -12,24 +12,27 @@ model User {
   name      String
   email     String    @unique
   password  String
+  votes     votedPoll[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
 }
 
 model Poll {
-  id        String    @id @default(uuid()) @map("_id")
-  title      String
-  visibility     String
-  status String
-  startAt DateTime
-  endAt DateTime
+  id            String    @id @default(uuid()) @map("_id")
+  title         String
+  description   String
+  visibility    String
+  status        String
+  startAt       DateTime
+  endAt         DateTime
   expectedVotes Int
-  categories String[]
-  options Option[]
-  votes votedOption[]
-  createdBy CreatedBy
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  categories    String[]
+  options       Option[]
+  votes         votedOption[]
+  votesCount    Int       @default(0)
+  createdBy     CreatedBy
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
 }
 
 type Option {

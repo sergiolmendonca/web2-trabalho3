@@ -1,29 +1,21 @@
-import { gerarToken } from '../../infrastructure/security/jwt-service.js';
-import { createUserUseCase } from '../../application/use-cases/create-user-use-case.js';
-import { User } from '../../domain/entities/user.js';
+import * as jwtService from '../../infrastructure/security/jwt-service.js';
+import { LoginUseCase } from '../../application/use-cases/login-use-case.js';
+import { UserRepository } from '../../infrastructure/repositories/user-repository.js';
 
-const login = (req, res) => {
-    var token = gerarToken({
-        name: req.body.name,
-        email: req.body.email
-    });
+const login = async (req, res) => {
 
-    res.json({
-        token
-    });
+  const password = req.body.password;
+  const email = req.body.email;
+
+  if (!email || !password) return res.status(401).json({ mensagem: "Campos email e password são obrigatórios."});
+  
+    const userRepository = new UserRepository();
+    const loginUseCase = new LoginUseCase(userRepository, jwtService);
+    const retorno = await loginUseCase.execute({ email, password });
+
+    res.status(200).json(retorno);
 }
 
-const create = (req, res) => {
-  new createUserUseCase().create(new User({
-    name: "sergio",
-    email: "teste@teste.com",
-    password: "123bolinha"
-  }));
-
-  res.json("ok");
-};
-
 export { 
-    login, 
-    create 
+    login
 };
